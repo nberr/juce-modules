@@ -1,33 +1,28 @@
 /*
   ==============================================================================
-    BEGIN_JUCE_MODULE_DECLARATION
-    ID:            juce_Spinner
-    vendor:        Nicholas Berriochoa
-    version:       1.0.0
-    name:          Spinner
-    description:   Spinner UI Component
-    website:       https://nberr.io
-    license:       https://github.com/nberr/juce-spinner/blob/main/LICENSE
-    dependencies:
-    END_JUCE_MODULE_DECLARATION
+
+    juce_SpinComboBox.h
+    Created: 20 May 2022 3:30:45pm
+    Author:  Nicholas Berriochoa
+
   ==============================================================================
 */
 
 #pragma once
-#define SPINNER_H_INCLUDED
+#define SPINCOMBOBOX_H_INCLUDED
 
 #include <JuceHeader.h>
 
 //==============================================================================
-class Spinner
+class SpinComboBox
 :   public juce::Component,
-    public juce::Button::Listener,
-    public juce::TextEditor::Listener
+    public juce::ComboBox::Listener,
+    public juce::Button::Listener
 {
 public:
-    //==============================================================================
-    Spinner();
-    ~Spinner();
+//==============================================================================
+    SpinComboBox();
+    ~SpinComboBox();
     
     //==============================================================================
     void paint(juce::Graphics& g) override;
@@ -35,20 +30,21 @@ public:
     
     //==============================================================================
     void buttonClicked(juce::Button* b) override;
-    void textEditorReturnKeyPressed(juce::TextEditor& te) override;
+    void comboBoxChanged(juce::ComboBox* cb) override;
     
     //==============================================================================
-    int getValue();
-    void setValue(int value);
+    juce::ComboBox* getComboBox();
     
 private:
     //==============================================================================
-    juce::TextEditor textDisplay;
-    juce::ArrowButton upButton {"Up Button", 0.75, juce::Colours::black};
-    juce::ArrowButton downButton {"Down Button", 0.25, juce::Colours::black};
+    bool hasEnabledItems();
+    int getNextEnabledIndex();
+    int getPreviousEnabledIndex();
     
-    int currentValue;
+    juce::ComboBox comboBox;
+    juce::ArrowButton prevButton;
+    juce::ArrowButton nextButton;
     
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Spinner)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpinComboBox)
 };
